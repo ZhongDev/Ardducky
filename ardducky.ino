@@ -8,8 +8,8 @@
 const String validKeys = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()-_=+[]{};:'\",.<>/?";
 
 // delay between keypresses in ms
-const int keyDelay = 18;
-
+const int keyDelay = 8;
+=
 // SD fluff
 File fd;
 String fileName = "000000.txt"; // SD library only supports up to 8.3 names
@@ -28,10 +28,6 @@ void setup()
   // HID init
   Keyboard.begin();
   Mouse.begin();
-  // Serial init
-  // Serial.begin(115200);      // Turn on serial connection
-  // while (!Serial);          // Wait while serial connects
-  // Serial.println("Initialize Serial Monitor");
 
   // Define SD card detection
   pinMode(cardDetect, INPUT);
@@ -76,8 +72,6 @@ void setup()
         // Ignore CRLF
         if (bufferIndex != 0) {
           lineBuffer[bufferIndex] = '\0'; // Null-terminate the string
-          // Serial.print("SD time to read:");
-          // Serial.println(millis() - endTime);
           String line(lineBuffer);
           handleDucky(line);
           endTime = millis();
@@ -100,8 +94,6 @@ void setup()
     // check and process last line
     if (bufferIndex != 0) {
       lineBuffer[bufferIndex] = '\0'; // Null-terminate the string
-      // Serial.print("SD time to read:");
-      // Serial.println(millis() - endTime);
       String line(lineBuffer);
       handleDucky(line);
       endTime = millis();
@@ -110,10 +102,6 @@ void setup()
     
     // Close the file
     fd.close();
-  } else {
-    // If the file didn't open, print an error:
-    // Serial.print("error opening ");
-    // Serial.println(fileName);
   }
 }
 
@@ -189,7 +177,6 @@ void handleDucky(String line)
   }
   // Check for Delay command
   else if (command.equals("DELAY")) {
-    // Serial.println("DELAY:");
     int delayVal = fstArg.toInt();
     // Make sure delay is at least 20ms
     if (delayVal < 20) {
@@ -224,7 +211,6 @@ void handleDucky(String line)
   }
   // Check if is a Modifer Keycombo
   else {
-    // Serial.println("Modifer:");
     if (line.length() > 0) {
       modifKeydown(line);
       delay(keyDelay);
@@ -232,9 +218,6 @@ void handleDucky(String line)
     Keyboard.releaseAll();
     delay(keyDelay);
   }
-  // Serial.println(line);
-  // Serial.print("Time elapsed:");
-  // Serial.println(millis() - startTime);
 }
 
 ///
@@ -295,11 +278,6 @@ void modifKeydown(String postCommand) {
     Keyboard.press(modif[0]);
   }
 
-  else {
-    // Serial.print("Unknown Modifier:");
-    // Serial.println(modif);
-  }
-
   if (modifPostCommand.length() > 0) {
     delay(keyDelay);
     modifKeydown(modifPostCommand);
@@ -309,13 +287,10 @@ void modifKeydown(String postCommand) {
 ///
 /// Ready Card for reading.
 ///
-void initializeCard(void)
-{
-  // Serial.println(F("Initializing SD card..."));
+void initializeCard(void){
   // Wait for SD to exist
   if (!digitalRead(cardDetect))
   {
-    // Serial.println(F("No SD inserted. Waiting for SD."));
     while (!digitalRead(cardDetect));
     delay(250); // 'Debounce insertion'
   }
@@ -323,33 +298,19 @@ void initializeCard(void)
   // even if it worked if it's not the first call.
   if (!SD.begin(chipSelect) && !alreadyBegan)  // begin uses half-speed...
   {
-    // Serial.println(F("Initialization failed!"));
     initializeCard(); // Possible infinite retry loop is as valid as anything
   } else {
     alreadyBegan = true;
   }
-  // Serial.println(F("Initialization done."));
 
-
-  // Serial.print(fileName);
   if (SD.exists(fileName))
-  {
-    // Serial.println(F(" exists."));
-  }
+  {}
   else
   {
-    // Serial.println(F(" doesn't exist. Creating."));
     File newFile = SD.open(fileName, FILE_WRITE);
     if (newFile) {
-      // Serial.println(fileName + String(" created/opened successfully.")); 
-      // Close the file
       newFile.close();
     } else {
-      // If the file didn't open, print an error
-      // Serial.println("Error opening " + String(fileName));
     }
   }
-
-  // Serial.print("Opening file: ");
-  // Serial.println(fileName);
 }
