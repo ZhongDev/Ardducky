@@ -4,6 +4,8 @@ Arduino-based "BadUSB" pentesting tool
 
 ## Overview
 
+![Ardducky BadUSB](readme_images/image1.jpg)
+
 Ardducky is an Arduino-based “bad USB” penetration testing tool, which exploits computers’ inherit trust of USB HID (human interface devices, such as keyboards and mice) and uses them to send hundreds of keystrokes a second upon connection to a target PC to quickly and covertly install software tools, such as keyloggers, remote access tooling, and many other hacking software.
 
 This tool is designed to be compatible and work with DuckyScript 1.0 payloads made for the original USB rubber ducky bad USB developed by Hak5 in 2011. This means that battle-tested payloads that are already shared by members of the pen-testing community can be used without modification.
