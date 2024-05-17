@@ -9,7 +9,7 @@ const String validKeys = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 
 // delay between keypresses in ms
 const int keyDelay = 8;
-=
+
 // SD fluff
 File fd;
 String fileName = "000000.txt"; // SD library only supports up to 8.3 names
