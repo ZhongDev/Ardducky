@@ -122,7 +122,7 @@ void handleDucky(String line)
 {
   // Grab first word
   int fstSpaceIdx = line.indexOf(" ");
-  String command = line.substring(0, fstSpaceIdx);
+  String command = line.substring(0, fstSpaceIdx).toUpperCase();
   String postCommand;
   String fstArg;
   if (fstSpaceIdx == -1) {
